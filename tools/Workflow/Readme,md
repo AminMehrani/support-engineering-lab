@@ -1,0 +1,32 @@
+# AI Support Triage System (n8n + OpenAI)
+
+A lightweight automation engine that classifies, prioritizes, and routes incoming support tickets using AI. Built to replace manual Tier 1 triage with a scalable, API-driven workflow.
+
+---
+
+## 🚀 Overview
+
+Support teams lose significant time on repetitive ticket classification and routing. This system automates the first layer of support operations:
+
+- Detects intent from raw tickets
+- Assigns priority levels
+- Categorizes issues (billing, API, bug, general)
+- Generates a suggested response
+- Outputs structured JSON for downstream systems
+
+Designed for integration into modern support stacks (Zendesk, Intercom, custom CRMs, Slack workflows).
+
+---
+
+## 🧠 Core Capabilities
+
+- Real-time ticket ingestion via webhook
+- AI-powered intent classification
+- Priority scoring (P0–P3)
+- Structured response generation
+- Optional escalation logic
+- Clean JSON output for automation pipelines
+
+---
+
+## 🏗 Architecture
