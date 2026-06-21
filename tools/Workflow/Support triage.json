@@ -1,0 +1,106 @@
+{
+  "name": "Support triage",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "2fc107f8-54e4-497c-8ba3-e495def03fdd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "398083e7-892d-4f9d-9fea-ebc7f4b4f425",
+      "name": "Webhook",
+      "webhookId": "2fc107f8-54e4-497c-8ba3-e495def03fdd"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "You are a support triage system.\n\nAnalyze this ticket:\n\n{{ $json.body.message }}\n\nReturn ONLY valid JSON. No explanation. No text outside JSON.\n\n{\n \"priority\":\"low|medium|high\",\n \"tag\":\"billing|api|bug|general\",\n \"intent\":\"short_snake_case\",\n \"suggested_response\":\"short reply\"\n}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e2377b07-ec5a-4150-a2e7-6158ac70ebe1",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "GRbZIpwhcDhpLcz8",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw =\n  $input.first().json.output?.[0]?.content?.[0]?.text;\n\nif (!raw) {\n  throw new Error(\"OpenAI response text not found\");\n}\n\nreturn [\n  {\n    json: JSON.parse(raw)\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        0
+      ],
+      "id": "1156f3cd-d68d-4172-af94-8cfc0bced574",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a7589a29-3283-495f-a3de-ac7bd9517b30",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "84afb43eece0a2804cb6fe2a098104d77190e1d5a48b3f19511295c1d559488b"
+  },
+  "nodeGroups": [],
+  "id": "uc4ORMydssUH5Udm",
+  "tags": []
+}
